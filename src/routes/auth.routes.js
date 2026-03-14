@@ -17,4 +17,12 @@ const authController = require('../controllers/auth.controllers')
  **/
  authRouter.post('/login', authController.loginUserController)
 
+
+/*
+* routes post /api/auth/logout
+* description logout user 
+* access public
+**/
+authRouter.get('/logout', authController.logoutUserController)
+
  module.exports = authRouter 
