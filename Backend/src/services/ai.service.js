@@ -10,65 +10,27 @@ const ai = new GoogleGenAI({
 
 
 const interviewReportSchema = z.object({
-
-    matchScore: z.number().min(0).max(100)
-        .describe("Score between 0-100 indicating candidate-job fit"),
-
-    summary: z.string()
-        .describe("Short overall evaluation of the candidate"),
-
-    strengths: z.array(z.string())
-        .min(2)
-        .describe("Key strengths of the candidate"),
-
-    weaknesses: z.array(z.string())
-        .min(2)
-        .describe("Weak areas or improvement points"),
-
-    technicalQuestions: z.array(
-        z.object({
-            question: z.string(),
-            difficulty: z.enum(["easy", "medium", "hard"]),
-            intention: z.string(),
-            answerStrategy: z.string()
-        })
-    ).min(5)
-     .describe("List of technical interview questions with strategy"),
-
-    behavioralQuestions: z.array(
-        z.object({
-            question: z.string(),
-            intention: z.string(),
-            sampleAnswer: z.string()
-        })
-    ).min(3)
-     .describe("Behavioral questions with answers"),
-
-    skillGaps: z.array(
-        z.object({
-            skill: z.string(),
-            severity: z.enum(["low", "medium", "high"]),
-            recommendation: z.string()
-        })
-    ).min(3)
-     .describe("Missing skills and how to improve them"),
-
-    preparationPlan: z.array(
-        z.object({
-            day: z.number(),
-            focus: z.string(),
-            tasks: z.array(z.string()).min(2)
-        })
-    ).min(7)
-     .describe("7-day preparation roadmap"),
-
-    projectSuggestions: z.array(z.string())
-        .min(2)
-        .describe("Projects candidate should build"),
-
-    confidenceLevel: z.enum(["low", "medium", "high"])
-        .describe("Overall interview readiness level")
-
+    matchScore: z.number().describe("A score between 0 and 100 indicating how well the candidate's profile matches the job describe"),
+    technicalQuestions: z.array(z.object({
+        question: z.string().describe("The technical question can be asked in the interview"),
+        intention: z.string().describe("The intention of interviewer behind asking this question"),
+        answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
+    })).describe("Technical questions that can be asked in the interview along with their intention and how to answer them"),
+    behavioralQuestions: z.array(z.object({
+        question: z.string().describe("The technical question can be asked in the interview"),
+        intention: z.string().describe("The intention of interviewer behind asking this question"),
+        answer: z.string().describe("How to answer this question, what points to cover, what approach to take etc.")
+    })).describe("Behavioral questions that can be asked in the interview along with their intention and how to answer them"),
+    skillGaps: z.array(z.object({
+        skill: z.string().describe("The skill which the candidate is lacking"),
+        severity: z.enum([ "low", "medium", "high" ]).describe("The severity of this skill gap, i.e. how important is this skill for the job and how much it can impact the candidate's chances")
+    })).describe("List of skill gaps in the candidate's profile along with their severity"),
+    preparationPlan: z.array(z.object({
+        day: z.number().describe("The day number in the preparation plan, starting from 1"),
+        focus: z.string().describe("The main focus of this day in the preparation plan, e.g. data structures, system design, mock interviews etc."),
+        tasks: z.array(z.string()).describe("List of tasks to be done on this day to follow the preparation plan, e.g. read a specific book or article, solve a set of problems, watch a video etc.")
+    })).describe("A day-wise preparation plan for the candidate to follow in order to prepare for the interview effectively"),
+    title: z.string().describe("The title of the job for which the interview report is generated"),
 })
 
 async function generateInterviewReport({ resume, selfDescription, jobDescription }) {
