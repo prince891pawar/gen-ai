@@ -3,6 +3,11 @@ const authController = require('../controllers/auth.controllers')
 const authMiddleware = require('../middleware/auth.middleware')
  const authRouter = Router()
 
+/* 
+* 
+**/
+
+
 /**
  * routes post /api/auth/register 
  * description register a new user 
