@@ -1,7 +1,15 @@
-import React from "react";
+import React, {useState, useRef} from "react";
 import "../style/home.scss";
+import { useInterview } from "../hooks/useInterview";
 
 const Home = () => {
+
+  const {loading, generateReport} = useInterview
+  const [jobdescription, setJobDescription] = useState("")
+  const [selfdescription, setselfDescription] = useState("")
+   resumeInputRef = useRef()
+  
+
   return (
     <main className="home">
 
@@ -39,7 +47,7 @@ const Home = () => {
             <label>Upload Resume</label>
 
             <div className="upload-box">
-              <input type="file" accept=".pdf,.docx" />
+              <input ref={resumeInputRef} type="file" accept=".pdf,.docx" />
 
               <div className="upload-content">
                 <div className="icon">⬆</div>
@@ -54,7 +62,8 @@ const Home = () => {
           {/* Self Description */}
           <div className="input-group">
             <label>Quick Self Description</label>
-            <textarea placeholder="Briefly describe your experience..."></textarea>
+            <textarea onChange={(e)=>{setselfDescription(e.target.value)}}
+            id="selfDescription" name="selfDescription" className="panel_textarea pnel_textare--short" placeholder="Briefly describe your experience..."></textarea>
           </div>
 
           <div className="info-box">
