@@ -1,18 +1,22 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
-const userSchema = mongoose.Schema({
-    username:{
+
+const userSchema = new mongoose.Schema({
+    username: {
         type: String,
-        unique: [true, "username is already exist"]
+        unique: [ true, "username already taken" ],
+        required: true,
     },
-    email:{
+
+    email: {
         type: String,
-        unique: [true, "already is already exists"],
+        unique: [ true, "Account already exists with this email address" ],
+        required: true,
+    },
+
+    password: {
+        type: String,
         required: true
-    },
-    password:{
-        type: String, 
-        required: true 
     }
 })
 

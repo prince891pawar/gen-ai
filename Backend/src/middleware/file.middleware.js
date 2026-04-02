@@ -1,10 +1,16 @@
-const multer = require('multer')
+const mongoose = require('mongoose')
 
-const upload = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-        fileSize: 3 * 1024 * 1024 * 1024 // 3MB
+
+const blacklistTokenSchema = new mongoose.Schema({
+    token: {
+        type: String,
+        required: [ true, "token is required to be added in blacklist" ]
     }
+}, {
+    timestamps: true
 })
 
-module.exports = upload
+const tokenBlacklistModel = mongoose.model("blacklistTokens", blacklistTokenSchema)
+
+
+module.exports = tokenBlacklistModel
